@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Samaritan</title>
+        <meta charset="UTF-8">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static',filename='icons/apple-touch-icon.png') }}">
+        <link rel="icon" type="image/png" href="{{ url_for('static',filename='icons/favicon-32x32.png') }}" sizes="32x32">
+        <link rel="icon" type="image/png" href="{{ url_for('static',filename='icons/favicon-16x16.png') }}" sizes="16x16">
+        <link rel="manifest" href="{{ url_for('static',filename='icons/manifest.json') }}">
+        <link rel="mask-icon" href="{{ url_for('static',filename='icons/safari-pinned-tab.svg') }}" color="#000000">
+        <link rel="shortcut icon" href="{{ url_for('static',filename='icons/favicon.ico') }}">
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="msapplication-TileImage" content="{{ url_for('static',filename='icons/mstile-144x144.png') }}">
+        <meta name="msapplication-config" content="{{ url_for('static',filename='icons/browserconfig.xml') }}">
+        <meta name="theme-color" content="#000000">
+
+        <script type="text/javascript" src="{{ url_for('static',filename='scripts/jquery-1.11.0.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='scripts/screenfull.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='scripts/phraselist.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static',filename='scripts/samaritan.js') }}"></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    </head>
+    <body>
+        <div id="main">
+            <p>&nbsp;</p>
+            <hr />
+        </div>
+        <div id="marker">
+            <span id="triangle">&#9650</span>
+        </div>
+    </body>
+</html>

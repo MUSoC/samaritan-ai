@@ -1,1 +1,3 @@
-# samaritan-ai
+# SAMARITAN.AI
+
+## Sentient system

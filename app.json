@@ -1,0 +1,7 @@
+{
+  "name": "samaritan-ai",
+  "description": "Backend code for samaritan-ai",
+  "image": "heroku/python",
+  "repository": "https://github.com/avikantz/samaritan-ai",
+  "keywords": ["python", "flask"]
+}
