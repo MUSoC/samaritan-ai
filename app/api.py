@@ -1,6 +1,8 @@
 from app import app
 from flask import jsonify, request, render_template
 
+from contingency.contingency import *
+
 import json
 import time
 
@@ -28,11 +30,12 @@ def homepage():
 def getintent():
 	if request.headers.get('auth_key') == auth_key:
 		data = request.get_json()
-		try:
-			text = data['text']
-			# confidence = float(data['confidence'])
-			return json_formatter(200, "It works!", {"text": text, "keywords_detected": text, "hypothesis": text, "confidence": 0.69})
-		except:
-			return json_formatter(400, "Bad request", {})
+		# try:
+		text = data['text']
+		# confidence = float(data['confidence'])
+		resp, tags, conf = contingency_response(text)
+		return json_formatter(200, "It works!", {"text": text, "keywords_detected": tags, "hypothesis": resp, "confidence": conf})
+		# except:
+			# return json_formatter(400, "Bad request", {})
 	else:
 		return json_formatter(401, "Unauthorized", {})
