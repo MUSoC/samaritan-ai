@@ -10,23 +10,12 @@ import random
 from sklearn.externals import joblib
 import tokens
 
-test_file = 'test_data.csv'
 train_file = 'train_data.csv'
-
+test_file = 'test_data.csv'
 test_df = pd.read_csv(test_file, header=None, delimiter="\t", quoting=3)
 test_df.columns = ["Text"]
 train_df = pd.read_csv(train_file, header=None, delimiter="\t", quoting=3)
 train_df.columns = ["Sentiment","Text"]
-
-print train_df.shape
-print test_df.shape
-
-print train_df.head()
-print test_df.head()
-
-print train_df.Sentiment.value_counts()
-
-print np.mean([len(s.split(" ")) for s in train_df.Text])
 
 vectorizer = CountVectorizer(
     analyzer = 'word',
@@ -37,32 +26,19 @@ vectorizer = CountVectorizer(
 )
 
 corpus_data_features = vectorizer.fit_transform(train_df.Text.tolist() + test_df.Text.tolist())
-
 corpus_data_features_nd = corpus_data_features.toarray()
-print corpus_data_features_nd.shape
 
-vocab = vectorizer.get_feature_names()
-print vocab
+# Load model again
+classifier = joblib.load('sentiment.pkl')
 
-dist = np.sum(corpus_data_features_nd, axis=0)
-for tag, count in zip(vocab, dist):
-    print count, tag
+test_pred = classifier.predict(corpus_data_features_nd[len(test_df):])
 
-X_train, X_test, y_train, y_test  = train_test_split(
-    corpus_data_features_nd[0:len(train_df)], 
-    train_df.Sentiment,
-    train_size=0.85, 
-    random_state=1234)
+spl = random.sample(xrange(len(test_pred)), 25)
+"""
+# last object sentiment
+spl = len(test_pred) - 1
+print test_pred[spl]
 
-log_model = LogisticRegression()
-log_model = log_model.fit(X=X_train, y=y_train)
-
-y_pred = log_model.predict(X_test)
-
-print(classification_report(y_test, y_pred))
-
-log_model = LogisticRegression()
-log_model = log_model.fit(X=corpus_data_features_nd[0:len(train_df)], y=train_df.Sentiment)
-
-# Save model using joblib
-joblib.dump(log_model, 'sentiment.pkl')
+"""
+for text, sentiment in zip(test_df.Text[spl], test_pred[spl]):
+    print sentiment, text
