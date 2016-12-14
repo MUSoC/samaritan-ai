@@ -7,6 +7,7 @@ from sklearn.cross_validation import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 import random
+from sklearn.externals import joblib
 
 test_file = 'test_data.csv'
 train_file = 'train_data.csv'
@@ -75,14 +76,5 @@ print(classification_report(y_test, y_pred))
 log_model = LogisticRegression()
 log_model = log_model.fit(X=corpus_data_features_nd[0:len(train_df)], y=train_df.Sentiment)
 
-test_pred = log_model.predict(corpus_data_features_nd[len(train_df):])
-
-spl = random.sample(xrange(len(test_pred)), 25)
-"""
-# last object sentiment
-spl = len(test_pred) - 1
-print test_pred[spl]
-
-"""
-for text, sentiment in zip(test_df.Text[spl], test_pred[spl]):
-    print sentiment, text
+# Save model using joblib
+joblib.dump(log_model, 'sentiment.pkl')
