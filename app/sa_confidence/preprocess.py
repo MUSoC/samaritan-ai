@@ -10,29 +10,27 @@ from nltk.stem import WordNetLemmatizer
 def clean_sentence(sentence):
     # Removing all special characters
     cleaned_sentence = re.sub("[^a-zA-Z\s0-9\-]", "", sentence)
-    # lemmatized_sentence = lemmatize_sentence(cleaned_sentence)
     no_stopwords_sentence = remove_stopwords(cleaned_sentence)
-    # print no_stopwords_sentence
     lemmatized_sentence = lemmatize_sentence(no_stopwords_sentence)
-    # print lemmatized_sentence
     return lemmatized_sentence
 
 
 # Remove stopwords
 def remove_stopwords(cleaned_sentence):
     stop_words = stopwords.words('english')
+    not_removal_list = ['not', 'but', 'if', 'until',
+                        'against', 'most', 'no', 'nor', 'very', 'musn\'',
+                        'needn\'', 'shan\'', 'shouldn\'', 'wasn\'', 'weren\'',
+                        'won\'', 'wouldn\'']
     new_stop_words = []
-    # print len(stop_words)
     for word in stop_words:
-        if word != 'not' and word != 'but' and word != 'if' and word != 'until' and word != 'against' and word != 'most' and word != 'no' and word != 'nor' and word != 'very' and word != 'musn\'' and word != 'needn\'' and word != 'shan\'' and word != 'shouldn\'' and word != 'wasn\'' and word != 'weren\'' and word != 'won\'' and word != 'wouldn\'':
+        if word not in not_removal_list:
             new_stop_words.append(word)
 
     no_stopwords_sentence = []
     for sentence in cleaned_sentence.split():
         if sentence not in new_stop_words:
             no_stopwords_sentence.append(sentence)
-        # no_stopwords_sentence.append(cleaned_sentence)
-    # print len(new_stop_words)
     return no_stopwords_sentence
 
 
@@ -66,13 +64,13 @@ def get_input_file(filename):
 
 
 def run():
-    pos_filenames = sorted(glob.glob("/home/rachit/Music/imdb/pos/*.txt"))
+    pos_filenames = sorted(glob.glob("imdb/pos/*.txt"))
     paras_pos = []
     for pos_filename in pos_filenames:
         # print '\n-----------------------', pos_filename, '---------------------\n' # noqa
         paras_pos.append(get_input_file(pos_filename))
 
-    neg_filenames = sorted(glob.glob("/home/rachit/Music/imdb/neg/*.txt"))
+    neg_filenames = sorted(glob.glob("imdb/neg/*.txt"))
     paras_neg = []
     for neg_filename in neg_filenames:
         # print '\n-----------------------', neg_filename, '---------------------\n' # noqa
