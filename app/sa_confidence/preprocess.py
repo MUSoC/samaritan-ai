@@ -2,8 +2,20 @@ import glob
 import nltk
 import re
 import sys
+import cPickle as pickle
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+
+
+# Class for sentence
+class Sentence:
+    def set_pos_params(self, filename, file_rating):
+        self.filename = filename
+        self.file_rating = file_rating
+
+    def set_neg_params(self, filename, file_rating):
+        self.filename = filename
+        self.file_rating = file_rating
 
 
 # Clean sentence
@@ -66,15 +78,32 @@ def get_input_file(filename):
 def run():
     pos_filenames = sorted(glob.glob("imdb/pos/*.txt"))
     paras_pos = []
+    pos_sentence_class = []
     for pos_filename in pos_filenames:
         # print '\n-----------------------', pos_filename, '---------------------\n' # noqa
+        filename = pos_filename.split("_")[0]
+        file_rating = pos_filename.split("_")[1]
+        pos_sentence = Sentence()
+        pos_sentence.set_pos_params(filename, file_rating)
+        pos_sentence_class.append(pos_sentence)
         paras_pos.append(get_input_file(pos_filename))
 
     neg_filenames = sorted(glob.glob("imdb/neg/*.txt"))
     paras_neg = []
+    neg_sentence_class = []
     for neg_filename in neg_filenames:
         # print '\n-----------------------', neg_filename, '---------------------\n' # noqa
+        filename = neg_filename.split("_")[0]
+        file_rating = neg_filename.split("_")[1]
+        neg_sentence = Sentence()
+        neg_sentence.set_neg_params(filename, file_rating)
+        neg_sentence_class.append(neg_sentence)
         paras_neg.append(get_input_file(neg_filename))
+
+    # Creating dump files of positive and negative class objects
+    pickle.dump(pos_sentence_class, open("pickledumps/pos_sentence_class.p", "wb")) # noqa
+    pickle.dump(neg_sentence_class, open("pickledumps/neg_sentence_class.p", "wb")) # noqa
+
     return paras_pos, paras_neg
 
 
