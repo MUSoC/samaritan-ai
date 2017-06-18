@@ -1,18 +1,25 @@
-import pos_tags
+import preprocess
 # import cPickle as pickle
 
 
 # Calculating score
 def calculate_scores(full_text, scores):
+    not_removal_list = ['not', 'but', 'if', 'until',
+                        'against', 'most', 'no', 'nor', 'very', 'musn\'',
+                        'needn\'', 'shan\'', 'shouldn\'', 'wasn\'', 'weren\'',
+                        'won\'', 'wouldn\'']
     para_scores = []
+    prev_word = ''
     for paragraph in full_text:
         score = 0
         for sentence in paragraph:
             for word in sentence.split():
                 # Comparing word in paragraph with lexicon
                 if word in scores.keys():
-                    # print word, scores[word]
+                    if prev_word in not_removal_list:
+                        scores[word] = scores[word] * -1
                     score += scores[word]
+                prev_word = word
         # print '-------------------------'
         para_scores.append(score)
     return para_scores
@@ -29,12 +36,13 @@ def create_sentiment_dict(sentimentData):
 
 
 def run():
-    pos_data_POS, neg_data_POS = pos_tags.run()
+    pos_data_POS, neg_data_POS = preprocess.run()
     scores = create_sentiment_dict('lexicon/AFINN-111.txt')
     # scores = create_sentiment_dict('lexicon/wordwithStrength.txt')
     pos_para_score = calculate_scores(pos_data_POS, scores)
     neg_para_score = calculate_scores(neg_data_POS, scores)
-    print pos_para_score, neg_para_score
+    # print pos_para_score, '\n-------------\n', neg_para_score
+    return pos_data_POS, neg_data_POS
 
 
 if __name__ == "__main__":
