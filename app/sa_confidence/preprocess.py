@@ -21,7 +21,8 @@ class Sentence:
 # Clean sentence
 def clean_sentence(sentence):
     # Removing all special characters
-    cleaned_sentence = re.sub("[^a-zA-Z\s0-9\-]", "", sentence)
+    non_xml_sentence = re.sub("<[^>]*>", "", sentence)
+    cleaned_sentence = re.sub("[^a-zA-Z\s]", " ", non_xml_sentence)
     no_stopwords_sentence = remove_stopwords(cleaned_sentence)
     lemmatized_sentence = lemmatize_sentence(no_stopwords_sentence)
     return lemmatized_sentence
@@ -65,8 +66,7 @@ def create_sentences(paragraph):
             # Converting to lower case and appending it to a list
             final_sentence = clean_sentence(sentence.lower())
             list_sentences.append(final_sentence)
-            full_para += final_sentence
-    # print full_para
+            full_para += final_sentence + ' '
     return list_sentences, full_para
 
 

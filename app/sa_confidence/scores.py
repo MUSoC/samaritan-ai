@@ -36,13 +36,13 @@ def create_sentiment_dict(sentimentData):
 
 
 def run():
-    pos_data_POS, neg_data_POS = preprocess.run()
+    paras_pos, paras_neg = preprocess.run()
     scores = create_sentiment_dict('lexicon/AFINN-111.txt')
     # scores = create_sentiment_dict('lexicon/wordwithStrength.txt')
-    pos_para_score = calculate_scores(pos_data_POS, scores)
-    neg_para_score = calculate_scores(neg_data_POS, scores)
-    # print pos_para_score, '\n-------------\n', neg_para_score
-    return pos_data_POS, neg_data_POS
+    pos_para_score = calculate_scores(paras_pos, scores)
+    neg_para_score = calculate_scores(paras_neg, scores)
+    print pos_para_score, '\n-------------\n', neg_para_score
+    return paras_pos, paras_neg
 
 
 if __name__ == "__main__":
