@@ -38,17 +38,15 @@ def run():
     paras_pos_single = pickle.load(open("pickledumps/paras_pos_single.p", "rb")) # noqa
     paras_neg_single = pickle.load(open("pickledumps/paras_neg_single.p", "rb")) # noqa
     paras_pos, paras_neg = preprocess.run()
+    # print paras_pos
     # print paras_pos_single, '\n-------------\n', paras_neg_single
-    pos_tfidf = calculate_tfidf(paras_pos_single)
-    # print pos_tfidf['run']
-    # neg_tfidf = calculate_tfidf(paras_neg_single)
-    print tfidf_score_paragraphs(paras_pos, pos_tfidf)
-    # print pos_tfidf, '\n-------------\n', neg_tfidf
+    '''pos_tfidf = calculate_tfidf(paras_pos_single)
+    neg_tfidf = calculate_tfidf(paras_neg_single)
+    pos_tfidf_score = tfidf_score_paragraphs(paras_pos, pos_tfidf)
+    neg_tfidf_score = tfidf_score_paragraphs(paras_neg, neg_tfidf)'''
 
 
 vectorizer = TfidfVectorizer(min_df=1, analyzer='word')
-# tokenize = lambda doc: doc.lower().split(" ")
-# vectorizer = TfidfVectorizer(norm='l2',min_df=0, use_idf=True, smooth_idf=False, sublinear_tf=True, tokenizer=tokenize)
 
 if __name__ == "__main__":
     run()
