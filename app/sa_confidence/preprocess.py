@@ -2,14 +2,27 @@ import glob
 import nltk
 import re
 import sys
+import cPickle as pickle
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+
+
+# Class for sentence
+class Sentence:
+    def set_pos_params(self, filename, file_rating):
+        self.filename = filename
+        self.file_rating = file_rating
+
+    def set_neg_params(self, filename, file_rating):
+        self.filename = filename
+        self.file_rating = file_rating
 
 
 # Clean sentence
 def clean_sentence(sentence):
     # Removing all special characters
-    cleaned_sentence = re.sub("[^a-zA-Z\s0-9\-]", "", sentence)
+    non_xml_sentence = re.sub("<[^>]*>", "", sentence)
+    cleaned_sentence = re.sub("[^a-zA-Z\s]", " ", non_xml_sentence)
     no_stopwords_sentence = remove_stopwords(cleaned_sentence)
     lemmatized_sentence = lemmatize_sentence(no_stopwords_sentence)
     return lemmatized_sentence
@@ -45,36 +58,64 @@ def lemmatize_sentence(cleaned_sentence):
 # Create list of sentences
 def create_sentences(paragraph):
     sentences = tokenizer.tokenize(paragraph)
-    # print sentences
     # Make a list of sentences
     list_sentences = []
+    full_para = ''
     for sentence in sentences:
         if len(sentence) > 0:
             # Converting to lower case and appending it to a list
-            list_sentences.append(clean_sentence(sentence.lower()))
-    return list_sentences
+            final_sentence = clean_sentence(sentence.lower())
+            list_sentences.append(final_sentence)
+            full_para += final_sentence + ' '
+    return list_sentences, full_para
 
 
 # Read input files
 def get_input_file(filename):
     with open(filename, "r") as file:
-        sentences = create_sentences(file.read())
+        sentences, para_list = create_sentences(file.read())
     file.close()
-    return sentences
+    return sentences, para_list
 
 
 def run():
     pos_filenames = sorted(glob.glob("imdb/pos/*.txt"))
     paras_pos = []
+    paras_pos_single = []
+    pos_sentence_class = []
     for pos_filename in pos_filenames:
         # print '\n-----------------------', pos_filename, '---------------------\n' # noqa
-        paras_pos.append(get_input_file(pos_filename))
+        filename = pos_filename.split("_")[0]
+        file_rating = pos_filename.split("_")[1]
+        pos_sentence = Sentence()
+        pos_sentence.set_pos_params(filename, file_rating)
+        pos_sentence_class.append(pos_sentence)
+        para_double_list, para_single_list = get_input_file(pos_filename)
+        paras_pos.append(para_double_list)
+        paras_pos_single.append(para_single_list)
+        # print paras_pos_single
 
     neg_filenames = sorted(glob.glob("imdb/neg/*.txt"))
     paras_neg = []
+    paras_neg_single = []
+    neg_sentence_class = []
     for neg_filename in neg_filenames:
         # print '\n-----------------------', neg_filename, '---------------------\n' # noqa
-        paras_neg.append(get_input_file(neg_filename))
+        filename = neg_filename.split("_")[0]
+        file_rating = neg_filename.split("_")[1]
+        neg_sentence = Sentence()
+        neg_sentence.set_neg_params(filename, file_rating)
+        neg_sentence_class.append(neg_sentence)
+        para_double_list, para_single_list = get_input_file(neg_filename)
+        paras_neg.append(para_double_list)
+        paras_neg_single.append(para_single_list)
+
+    # Creating dump files of positive and negative class objects
+    pickle.dump(pos_sentence_class, open("pickledumps/pos_sentence_class.p", "wb")) # noqa
+    pickle.dump(neg_sentence_class, open("pickledumps/neg_sentence_class.p", "wb")) # noqa
+    pickle.dump(paras_pos_single, open("pickledumps/paras_pos_single.p", "wb")) # noqa
+    pickle.dump(paras_neg_single, open("pickledumps/paras_neg_single.p", "wb")) # noqa
+
     return paras_pos, paras_neg
 
 
