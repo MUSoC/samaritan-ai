@@ -1,4 +1,4 @@
-import preprocess
+import scores
 import cPickle as pickle
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -34,16 +34,57 @@ def tfidf_score_paragraphs(full_text, tfidf):
     return para_scores_tfidf
 
 
+# Generate feature vector to give to SVM
+def make_feature_vector(tfidf_score, sentence_class, position_score, para_score, feature_POS):
+    '''for i in pos_sentence_class:
+        print i.filename'''
+    feature_vector = []
+    for index in xrange(0, len(sentence_class)):
+        para_feature = []
+        para_feature.append(tfidf_score[index])
+        para_feature.append(sentence_class[index].file_rating)
+        para_feature.append(position_score[index])
+        para_feature.append(para_score[index])
+        para_feature.append(feature_POS[index])
+        feature_vector.append(para_feature)
+
+    return feature_vector
+
+
+# Combining feature vectors into one
+def combined_feature_vector(pos_feature_vector, neg_feature_vector):
+    feature_vector = []
+    for vector in pos_feature_vector:
+        feature_vector.append(vector)
+    for vector in neg_feature_vector:
+        feature_vector.append(vector)
+    return feature_vector
+
+
 def run():
     paras_pos_single = pickle.load(open("pickledumps/paras_pos_single.p", "rb")) # noqa
     paras_neg_single = pickle.load(open("pickledumps/paras_neg_single.p", "rb")) # noqa
-    paras_pos, paras_neg = preprocess.run()
-    # print paras_pos
-    # print paras_pos_single, '\n-------------\n', paras_neg_single
-    '''pos_tfidf = calculate_tfidf(paras_pos_single)
+
+    pos_sentence_class = pickle.load(open("pickledumps/pos_sentence_class.p", "rb")) # noqa
+    neg_sentence_class = pickle.load(open("pickledumps/neg_sentence_class.p", "rb")) # noqa
+
+    pos_feature_POS = pickle.load(open("pickledumps/pos_feature_POS.p", "rb")) # noqa
+    neg_feature_POS = pickle.load(open("pickledumps/neg_feature_POS.p", "rb")) # noqa
+
+    paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score = scores.run() # noqa
+    
+    pos_tfidf = calculate_tfidf(paras_pos_single)
     neg_tfidf = calculate_tfidf(paras_neg_single)
+
     pos_tfidf_score = tfidf_score_paragraphs(paras_pos, pos_tfidf)
-    neg_tfidf_score = tfidf_score_paragraphs(paras_neg, neg_tfidf)'''
+    neg_tfidf_score = tfidf_score_paragraphs(paras_neg, neg_tfidf)
+
+    pos_feature_vector = make_feature_vector(pos_tfidf_score, pos_sentence_class, pos_position_score, pos_para_score, pos_feature_POS)
+    neg_feature_vector = make_feature_vector(neg_tfidf_score, neg_sentence_class, neg_position_score, neg_para_score, neg_feature_POS)
+
+    feature_vector = combined_feature_vector(pos_feature_vector, neg_feature_vector)
+
+    return feature_vector
 
 
 vectorizer = TfidfVectorizer(min_df=1, analyzer='word')

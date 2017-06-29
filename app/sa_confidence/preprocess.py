@@ -86,7 +86,7 @@ def run():
     for pos_filename in pos_filenames:
         # print '\n-----------------------', pos_filename, '---------------------\n' # noqa
         filename = pos_filename.split("_")[0]
-        file_rating = pos_filename.split("_")[1]
+        file_rating = int(pos_filename.split("_")[1].split('.')[0])
         pos_sentence = Sentence()
         pos_sentence.set_pos_params(filename, file_rating)
         pos_sentence_class.append(pos_sentence)
@@ -102,13 +102,14 @@ def run():
     for neg_filename in neg_filenames:
         # print '\n-----------------------', neg_filename, '---------------------\n' # noqa
         filename = neg_filename.split("_")[0]
-        file_rating = neg_filename.split("_")[1]
+        file_rating = int(neg_filename.split("_")[1].split('.')[0])
         neg_sentence = Sentence()
         neg_sentence.set_neg_params(filename, file_rating)
         neg_sentence_class.append(neg_sentence)
         para_double_list, para_single_list = get_input_file(neg_filename)
         paras_neg.append(para_double_list)
         paras_neg_single.append(para_single_list)
+
 
     # Creating dump files of positive and negative class objects
     pickle.dump(pos_sentence_class, open("pickledumps/pos_sentence_class.p", "wb")) # noqa

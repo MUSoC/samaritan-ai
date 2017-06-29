@@ -1,4 +1,5 @@
 import preprocess
+from collections import Counter
 # import cPickle as pickle
 
 
@@ -43,6 +44,33 @@ def calculate_scores(full_text, scores):
     return para_scores, position_data_sentence, position_data_para
 
 
+# Calculate mode of lexicon words
+def calculate_mode(scores, word_position_sentence):
+    mode_array = []
+    for paragraph in word_position_sentence:
+        for sentence in paragraph:
+            for word in sentence:
+                if word[0] in scores.keys():
+                    mode_array.append(word[1])
+    mode = Counter(mode_array)
+    return mode.most_common(1)[0][0]
+
+
+# Assign a score based on position of word in sentence
+def assign_position_score(scores, mode, word_position_sentence):
+    position_score = []
+    for paragraph in word_position_sentence:
+        value = 0
+        number = 0
+        for sentence in paragraph:
+            for word in sentence:
+                if word[0] in scores.keys():
+                    number += 1
+                    value += mode - word[1]
+        position_score.append(value/number)
+    return position_score
+
+
 # Creates a sentiment dictionary in the form {word : value}
 def create_sentiment_dict(sentimentData):
     afinnfile = open(sentimentData)
@@ -59,8 +87,13 @@ def run():
     # scores = create_sentiment_dict('lexicon/wordwithStrength.txt')
     pos_para_score, pos_word_position_sentence, pos_word_position_para = calculate_scores(paras_pos, scores) # noqa
     neg_para_score, neg_word_position_sentence, neg_word_position_para = calculate_scores(paras_neg, scores) # noqa
+
+    pos_mode = calculate_mode(scores, pos_word_position_sentence)
+    neg_mode = calculate_mode(scores, neg_word_position_sentence)
+    pos_position_score = assign_position_score(scores, pos_mode, pos_word_position_sentence)
+    neg_position_score = assign_position_score(scores, neg_mode, neg_word_position_sentence)
     # print pos_para_score, '\n-------------\n', neg_para_score
-    return paras_pos, paras_neg
+    return paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score
 
 
 if __name__ == "__main__":
