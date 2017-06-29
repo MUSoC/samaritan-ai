@@ -8,7 +8,7 @@ p4
 I3
 sS'filename'
 p5
-S'imdb/neg/0'
+S'imdb/train/neg/0'
 p6
 sba(ipreprocess
 Sentence
@@ -17,7 +17,7 @@ p7
 g4
 I2
 sg5
-S'imdb/neg/10'
+S'imdb/train/neg/10'
 p9
 sba(ipreprocess
 Sentence
@@ -26,7 +26,7 @@ p10
 g4
 I3
 sg5
-S'imdb/neg/11'
+S'imdb/train/neg/11'
 p12
 sba(ipreprocess
 Sentence
@@ -35,7 +35,7 @@ p13
 g4
 I1
 sg5
-S'imdb/neg/12'
+S'imdb/train/neg/12'
 p15
 sba(ipreprocess
 Sentence
@@ -44,7 +44,7 @@ p16
 g4
 I2
 sg5
-S'imdb/neg/13'
+S'imdb/train/neg/13'
 p18
 sba(ipreprocess
 Sentence
@@ -53,7 +53,7 @@ p19
 g4
 I2
 sg5
-S'imdb/neg/14'
+S'imdb/train/neg/14'
 p21
 sba(ipreprocess
 Sentence
@@ -62,7 +62,7 @@ p22
 g4
 I1
 sg5
-S'imdb/neg/15'
+S'imdb/train/neg/15'
 p24
 sba(ipreprocess
 Sentence
@@ -71,7 +71,7 @@ p25
 g4
 I3
 sg5
-S'imdb/neg/16'
+S'imdb/train/neg/16'
 p27
 sba(ipreprocess
 Sentence
@@ -80,7 +80,7 @@ p28
 g4
 I3
 sg5
-S'imdb/neg/17'
+S'imdb/train/neg/17'
 p30
 sba(ipreprocess
 Sentence
@@ -89,7 +89,7 @@ p31
 g4
 I3
 sg5
-S'imdb/neg/18'
+S'imdb/train/neg/18'
 p33
 sba(ipreprocess
 Sentence
@@ -98,7 +98,7 @@ p34
 g4
 I4
 sg5
-S'imdb/neg/19'
+S'imdb/train/neg/19'
 p36
 sba(ipreprocess
 Sentence
@@ -107,7 +107,7 @@ p37
 g4
 I1
 sg5
-S'imdb/neg/1'
+S'imdb/train/neg/1'
 p39
 sba(ipreprocess
 Sentence
@@ -116,7 +116,7 @@ p40
 g4
 I1
 sg5
-S'imdb/neg/20'
+S'imdb/train/neg/20'
 p42
 sba(ipreprocess
 Sentence
@@ -125,7 +125,7 @@ p43
 g4
 I4
 sg5
-S'imdb/neg/21'
+S'imdb/train/neg/21'
 p45
 sba(ipreprocess
 Sentence
@@ -134,7 +134,7 @@ p46
 g4
 I1
 sg5
-S'imdb/neg/22'
+S'imdb/train/neg/22'
 p48
 sba(ipreprocess
 Sentence
@@ -143,7 +143,7 @@ p49
 g4
 I3
 sg5
-S'imdb/neg/23'
+S'imdb/train/neg/23'
 p51
 sba(ipreprocess
 Sentence
@@ -152,7 +152,7 @@ p52
 g4
 I1
 sg5
-S'imdb/neg/24'
+S'imdb/train/neg/24'
 p54
 sba(ipreprocess
 Sentence
@@ -161,7 +161,7 @@ p55
 g4
 I1
 sg5
-S'imdb/neg/25'
+S'imdb/train/neg/25'
 p57
 sba(ipreprocess
 Sentence
@@ -170,7 +170,7 @@ p58
 g4
 I1
 sg5
-S'imdb/neg/2'
+S'imdb/train/neg/2'
 p60
 sba(ipreprocess
 Sentence
@@ -179,7 +179,7 @@ p61
 g4
 I4
 sg5
-S'imdb/neg/3'
+S'imdb/train/neg/3'
 p63
 sba(ipreprocess
 Sentence
@@ -188,7 +188,7 @@ p64
 g4
 I4
 sg5
-S'imdb/neg/4'
+S'imdb/train/neg/4'
 p66
 sba(ipreprocess
 Sentence
@@ -197,7 +197,7 @@ p67
 g4
 I3
 sg5
-S'imdb/neg/5'
+S'imdb/train/neg/5'
 p69
 sba(ipreprocess
 Sentence
@@ -206,7 +206,7 @@ p70
 g4
 I1
 sg5
-S'imdb/neg/6'
+S'imdb/train/neg/6'
 p72
 sba(ipreprocess
 Sentence
@@ -215,7 +215,7 @@ p73
 g4
 I3
 sg5
-S'imdb/neg/7'
+S'imdb/train/neg/7'
 p75
 sba(ipreprocess
 Sentence
@@ -224,7 +224,7 @@ p76
 g4
 I4
 sg5
-S'imdb/neg/8'
+S'imdb/train/neg/8'
 p78
 sba(ipreprocess
 Sentence
@@ -233,6 +233,6 @@ p79
 g4
 I1
 sg5
-S'imdb/neg/9'
+S'imdb/train/neg/9'
 p81
 sba.

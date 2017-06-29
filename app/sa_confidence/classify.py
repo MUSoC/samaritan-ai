@@ -1,6 +1,9 @@
 import feature_vector
 import cPickle as pickle
 from sklearn import svm
+import matplotlib.pyplot as plt
+from matplotlib import style
+style.use("ggplot")
 
 
 # Create desired output array for SVM
@@ -15,9 +18,11 @@ def create_output_desired(sentence_class):
 
 # Classification of feature vectors
 def classify(feature_vector, output_desired):
-    clf = svm.SVC(C=1, gamma=1)
+    clf = svm.SVC(kernel="linear", C=1, gamma=1)
+    # plt.scatter(feature_vector, output_desired)
+    # plt.show()
     print clf.fit(feature_vector, output_desired)
-    print clf.score(feature_vector, output_desired)
+    print clf.support_vectors_
 
 
 def run():

@@ -79,7 +79,7 @@ def get_input_file(filename):
 
 
 def run():
-    pos_filenames = sorted(glob.glob("imdb/pos/*.txt"))
+    pos_filenames = sorted(glob.glob("imdb/train/pos/*.txt"))
     paras_pos = []
     paras_pos_single = []
     pos_sentence_class = []
@@ -95,7 +95,7 @@ def run():
         paras_pos_single.append(para_single_list)
         # print paras_pos_single
 
-    neg_filenames = sorted(glob.glob("imdb/neg/*.txt"))
+    neg_filenames = sorted(glob.glob("imdb/train/neg/*.txt"))
     paras_neg = []
     paras_neg_single = []
     neg_sentence_class = []
