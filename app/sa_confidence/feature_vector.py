@@ -62,16 +62,26 @@ def combined_feature_vector(pos_feature_vector, neg_feature_vector):
 
 
 def run():
-    paras_pos_single = pickle.load(open("pickledumps/paras_pos_single.p", "rb")) # noqa
-    paras_neg_single = pickle.load(open("pickledumps/paras_neg_single.p", "rb")) # noqa
+    file_type, paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score = scores.run() # noqa
 
-    pos_sentence_class = pickle.load(open("pickledumps/pos_sentence_class.p", "rb")) # noqa
-    neg_sentence_class = pickle.load(open("pickledumps/neg_sentence_class.p", "rb")) # noqa
+    if file_type == 1:
+        paras_pos_single = pickle.load(open("pickledumps/train/paras_pos_single.p", "rb")) # noqa
+        paras_neg_single = pickle.load(open("pickledumps/train/paras_neg_single.p", "rb")) # noqa
 
-    pos_feature_POS = pickle.load(open("pickledumps/pos_feature_POS.p", "rb")) # noqa
-    neg_feature_POS = pickle.load(open("pickledumps/neg_feature_POS.p", "rb")) # noqa
+        pos_sentence_class = pickle.load(open("pickledumps/train/pos_sentence_class.p", "rb")) # noqa
+        neg_sentence_class = pickle.load(open("pickledumps/train/neg_sentence_class.p", "rb")) # noqa
 
-    paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score = scores.run() # noqa
+        pos_feature_POS = pickle.load(open("pickledumps/train/pos_feature_POS.p", "rb")) # noqa
+        neg_feature_POS = pickle.load(open("pickledumps/train/neg_feature_POS.p", "rb")) # noqa
+    else:
+        paras_pos_single = pickle.load(open("pickledumps/test/paras_pos_single.p", "rb")) # noqa
+        paras_neg_single = pickle.load(open("pickledumps/test/paras_neg_single.p", "rb")) # noqa
+
+        pos_sentence_class = pickle.load(open("pickledumps/test/pos_sentence_class.p", "rb")) # noqa
+        neg_sentence_class = pickle.load(open("pickledumps/test/neg_sentence_class.p", "rb")) # noqa
+
+        pos_feature_POS = pickle.load(open("pickledumps/test/pos_feature_POS.p", "rb")) # noqa
+        neg_feature_POS = pickle.load(open("pickledumps/test/neg_feature_POS.p", "rb")) # noqa
     
     pos_tfidf = calculate_tfidf(paras_pos_single)
     neg_tfidf = calculate_tfidf(paras_neg_single)
@@ -84,7 +94,7 @@ def run():
 
     feature_vector = combined_feature_vector(pos_feature_vector, neg_feature_vector)
 
-    return feature_vector
+    return file_type, feature_vector
 
 
 vectorizer = TfidfVectorizer(min_df=1, analyzer='word')

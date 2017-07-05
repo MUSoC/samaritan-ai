@@ -30,7 +30,7 @@ def assign_feature_POS(data_POS):
 
 
 def run():
-    paras_pos, paras_neg = preprocess.run()
+    file_type, paras_pos, paras_neg = preprocess.run()
     pos_data_POS = assign_POS_tags(paras_pos)
     neg_data_POS = assign_POS_tags(paras_neg)
 
@@ -38,12 +38,20 @@ def run():
     neg_feature_POS = assign_feature_POS(neg_data_POS)
 
     # Creating dump files of positive and negative pos tagged words
-    pickle.dump(pos_data_POS, open("pickledumps/pos_POS_TAGGED.p", "wb"))
-    pickle.dump(neg_data_POS, open("pickledumps/neg_POS_TAGGED.p", "wb"))
+    if file_type == 1:
+        pickle.dump(pos_data_POS, open("pickledumps/train/pos_POS_TAGGED.p", "wb"))
+        pickle.dump(neg_data_POS, open("pickledumps/train/neg_POS_TAGGED.p", "wb"))
+    else:
+        pickle.dump(pos_data_POS, open("pickledumps/test/pos_POS_TAGGED.p", "wb"))
+        pickle.dump(neg_data_POS, open("pickledumps/test/neg_POS_TAGGED.p", "wb"))
 
     # Creating dump files of the pos and neg feature vectors for POS tagged
-    pickle.dump(pos_feature_POS, open("pickledumps/pos_feature_POS.p", "wb"))
-    pickle.dump(neg_feature_POS, open("pickledumps/neg_feature_POS.p", "wb"))
+    if file_type == 1:
+        pickle.dump(pos_feature_POS, open("pickledumps/train/pos_feature_POS.p", "wb"))
+        pickle.dump(neg_feature_POS, open("pickledumps/train/neg_feature_POS.p", "wb"))
+    else:
+        pickle.dump(pos_feature_POS, open("pickledumps/test/pos_feature_POS.p", "wb"))
+        pickle.dump(neg_feature_POS, open("pickledumps/test/neg_feature_POS.p", "wb"))
 
     return paras_pos, paras_neg
 

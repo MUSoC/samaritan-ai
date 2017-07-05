@@ -79,7 +79,18 @@ def get_input_file(filename):
 
 
 def run():
-    pos_filenames = sorted(glob.glob("imdb/train/pos/*.txt"))
+    # File type 1 is train. File type 2 is test
+    file_type = input("Enter file type (1 for train, 2 for test): ")
+
+    # pos file path for train = "imdb/train/pos/*.txt"
+    # pos file path for test = "imdb/test/pos/*.txt"
+    if file_type == 1:
+        file_names = "train"
+    else:
+        file_names = "test"
+
+    filename_input_pos = "imdb/" + file_names + "/pos/*.txt"
+    pos_filenames = sorted(glob.glob(filename_input_pos))
     paras_pos = []
     paras_pos_single = []
     pos_sentence_class = []
@@ -93,9 +104,12 @@ def run():
         para_double_list, para_single_list = get_input_file(pos_filename)
         paras_pos.append(para_double_list)
         paras_pos_single.append(para_single_list)
-        # print paras_pos_single
 
-    neg_filenames = sorted(glob.glob("imdb/train/neg/*.txt"))
+    # neg file path for train = "imdb/train/neg/*.txt"
+    # neg file path for test = "imdb/test/neg/*.txt"
+
+    filename_input_neg = "imdb/" + file_names + "/neg/*.txt"
+    neg_filenames = sorted(glob.glob(filename_input_neg))
     paras_neg = []
     paras_neg_single = []
     neg_sentence_class = []
@@ -112,12 +126,18 @@ def run():
 
 
     # Creating dump files of positive and negative class objects
-    pickle.dump(pos_sentence_class, open("pickledumps/pos_sentence_class.p", "wb")) # noqa
-    pickle.dump(neg_sentence_class, open("pickledumps/neg_sentence_class.p", "wb")) # noqa
-    pickle.dump(paras_pos_single, open("pickledumps/paras_pos_single.p", "wb")) # noqa
-    pickle.dump(paras_neg_single, open("pickledumps/paras_neg_single.p", "wb")) # noqa
+    if file_type == 1:
+        pickle.dump(pos_sentence_class, open("pickledumps/train/pos_sentence_class.p", "wb")) # noqa
+        pickle.dump(neg_sentence_class, open("pickledumps/train/neg_sentence_class.p", "wb")) # noqa
+        pickle.dump(paras_pos_single, open("pickledumps/train/paras_pos_single.p", "wb")) # noqa
+        pickle.dump(paras_neg_single, open("pickledumps/train/paras_neg_single.p", "wb")) # noqa
+    else:
+        pickle.dump(pos_sentence_class, open("pickledumps/test/pos_sentence_class.p", "wb")) # noqa
+        pickle.dump(neg_sentence_class, open("pickledumps/test/neg_sentence_class.p", "wb")) # noqa
+        pickle.dump(paras_pos_single, open("pickledumps/test/paras_pos_single.p", "wb")) # noqa
+        pickle.dump(paras_neg_single, open("pickledumps/test/paras_neg_single.p", "wb")) # noqa
 
-    return paras_pos, paras_neg
+    return file_type, paras_pos, paras_neg
 
 
 # Set default encoding as utf-8

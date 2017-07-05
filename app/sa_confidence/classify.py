@@ -17,24 +17,34 @@ def create_output_desired(sentence_class):
 
 
 # Classification of feature vectors
-def classify(feature_vector, output_desired):
-    clf = svm.SVC(kernel="linear", C=1, gamma=1)
-    # plt.scatter(feature_vector, output_desired)
-    # plt.show()
-    print clf.fit(feature_vector, output_desired)
-    print clf.support_vectors_
+def classify(file_type, feature_vector, output_desired):
+    if file_type == 1:
+        classifier = svm.SVC(kernel="linear", C=1, gamma=1)
+        # plt.scatter(feature_vector, output_desired)
+        # plt.show()
+        classifier.fit(feature_vector, output_desired)
+        pickle.dump(classifier, open("pickledumps/classifier.p", "wb")) # noqa
+    else:
+        classifier = pickle.load(open("pickledumps/classifier.p", "rb")) # noqa
+        print classifier.predict(feature_vector)
+
+        # print classifier
 
 
 def run():
-    pos_sentence_class = pickle.load(open("pickledumps/pos_sentence_class.p", "rb")) # noqa
-    neg_sentence_class = pickle.load(open("pickledumps/neg_sentence_class.p", "rb")) # noqa
+    file_type, input_feature_vector = feature_vector.run()
 
-    '''pos_output_desired = create_output_desired(pos_sentence_class)
-    neg_output_desired = create_output_desired(neg_sentence_class)'''
+    if file_type == 1:
+        pos_sentence_class = pickle.load(open("pickledumps/train/pos_sentence_class.p", "rb")) # noqa
+        neg_sentence_class = pickle.load(open("pickledumps/train/neg_sentence_class.p", "rb")) # noqa
+        output_desired = create_output_desired(pos_sentence_class)
+        classify(file_type, input_feature_vector, output_desired)
+    else:
+        pos_sentence_class = pickle.load(open("pickledumps/test/pos_sentence_class.p", "rb")) # noqa
+        neg_sentence_class = pickle.load(open("pickledumps/test/neg_sentence_class.p", "rb")) # noqa
+        classify(file_type, input_feature_vector, output_desired=None)
 
-    input_feature_vector = feature_vector.run()
-    output_desired = create_output_desired(pos_sentence_class)
-    classify(input_feature_vector, output_desired)
+        
 
 
 if __name__ == "__main__":
