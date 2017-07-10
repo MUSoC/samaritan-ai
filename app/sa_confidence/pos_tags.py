@@ -18,14 +18,15 @@ def assign_POS_tags(paras_pos):
 def assign_feature_POS(data_POS):
     # Checking for adverds, verbs and adjectives
     check_list = ['JJ', 'RB', 'VB', 'VBD']
-    feature_POS = []    
+    feature_POS = []
     for paragraph in data_POS:
         POS_number = 0
+        sentence_len = 1
         for sentence in paragraph:
             for word in sentence:
                 if word[1] in check_list:
                     POS_number += 1
-        feature_POS.append(POS_number)
+        feature_POS.append(POS_number/len(paragraph))
     return feature_POS
 
 
