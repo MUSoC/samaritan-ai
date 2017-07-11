@@ -1,6 +1,5 @@
 import preprocess
 from collections import Counter
-# import cPickle as pickle
 
 
 # Calculating score
@@ -82,7 +81,7 @@ def create_sentiment_dict(sentimentData):
 
 
 def run():
-    paras_pos, paras_neg = preprocess.run()
+    file_type, paras_pos, paras_neg = preprocess.run()
     scores = create_sentiment_dict('lexicon/AFINN-111.txt')
     # scores = create_sentiment_dict('lexicon/wordwithStrength.txt')
     pos_para_score, pos_word_position_sentence, pos_word_position_para = calculate_scores(paras_pos, scores) # noqa
@@ -93,7 +92,7 @@ def run():
     pos_position_score = assign_position_score(scores, pos_mode, pos_word_position_sentence)
     neg_position_score = assign_position_score(scores, neg_mode, neg_word_position_sentence)
     # print pos_para_score, '\n-------------\n', neg_para_score
-    return paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score
+    return file_type, paras_pos, pos_position_score, pos_para_score, paras_neg, neg_position_score, neg_para_score
 
 
 if __name__ == "__main__":
